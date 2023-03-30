@@ -33,15 +33,12 @@
  % Plot PCA Analysis
     figure(Name="PCA Components");
     hold on;
-    color = ['b', 'r', 'g', 'c', 'm', 'y', 'k'];
-        
+    color = ['b', 'r', 'g', 'c', 'm', 'y', 'k'];  
     for i = 1 : NUM_CLASSES
-       sub_matrix = score(labels == i, 1:3);
-       plot3(sub_matrix(:, 1), sub_matrix(:, 2), sub_matrix(:, 3), 'o','MarkerEdgeColor',color(i),'MarkerFaceColor',color(i),'MarkerSize',4);
+       plot3(score(labels == i, 1), score(labels == i, 2), score(labels == i, 3), 'o','MarkerEdgeColor',color(i),'MarkerFaceColor',color(i),'MarkerSize',4);
     end
     legend('PETE', 'HDPE', 'PVC', 'LDPE', 'PP', 'PS', 'BACKGROUND');
     hold off;
-    clear sub_matrix;
 
     %Plot pca coefficients
     figure(1);
