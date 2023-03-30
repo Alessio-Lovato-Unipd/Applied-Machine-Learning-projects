@@ -25,10 +25,24 @@
     % SVM
      SVMACHINE = templateSVM('Standardize',1,'KernelFunction','rbf');
      Mdl = fitcecoc(trainSet,trainLabels,'Learners',SVMACHINE,'Verbose',2);
-     cl = Mdl.predict(testSet); 
+     cl = Mdl.predict(testSet);
+
+    % K-Nearest Neighbors
+     Mdl_K = fitcknn(trainSet,trainLabels,'NumNeighbors',3,'Standardize',1);
+     cl_K = Mdl_K.predict(testSet);
 
     % Validation
     for i = 1 : 7
      ind = find(testLabels == i);
      eval(['[result' num2str(i) ',EDGES] = histcounts(cl(ind), [1 2 3 4 5 6 7 8] );']);
     end
+    svm_chart = figure(Name="SVM Confusion Chart");
+    svm_chart = confusionchart(testLabels,cl);
+
+    % Validation K-Nearest Neighbors
+    for i = 1 : 7
+     ind = find(testLabels == i);
+     eval(['[result_K' num2str(i) ',EDGES] = histcounts(cl_K(ind), [1 2 3 4 5 6 7 8] );']);
+    end
+    k_chart = figure(Name="K-Neighbors Confusion Chart");
+    k_chart = confusionchart(testLabels,cl_K);
