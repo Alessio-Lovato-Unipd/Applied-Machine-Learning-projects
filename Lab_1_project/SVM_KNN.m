@@ -1,13 +1,32 @@
 % Classification using Support Vector Machine for polymer sorter
 
     % Clear workspace
-    clear;
-
+        clear;
+    
+    
+    % SELECT IF DATASET HAS TO BE SHRUNK
+      shrink = true;
+    
+      
     % Read and shuffle data
     load dataVectors.mat;
-
+    
+    if shrink
+        % Selection of specified wavelenghts (1090 - 1350 -1550 mm)
+        scale(:, 161 : 199) = [];
+        scale(:, 103 : 156) = [];
+        scale(:, 29 : 98) = [];
+        scale(:, 1 : 24) = [];
+        
+        vectors(:, 161 : 199) = [];
+        vectors(:, 103 : 156) = [];
+        vectors(:, 29 : 98) = [];
+        vectors(:, 1 : 24) = [];
+    end
+    
     % Insert primary key of the set in the first column
     data_to_shuffle = cat(2, labels, vectors);
+
 
     % shuffling
     shuffled = data_to_shuffle(randperm(size(data_to_shuffle, 1)), :);
