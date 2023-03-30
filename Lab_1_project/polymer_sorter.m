@@ -20,19 +20,32 @@
 
  % Plot curves
    plot_reflectance = figure(Name="Reflectance");
-   plot_reflectance = plot(scale,data);
+   hold on;
+   plot(scale,data);
    xlabel("Wavelenght [mm]");
    ylabel("Relative reflectance");
    legend('PETE', 'HDPE', 'PVC', 'LDPE', 'PP', 'PS', 'BACKGROUND');
+   hold off;
 
  % Using PCA Analysis
    [coeff, score, latent, tsqared, exp] = pca(vectors, 'Centered', 'on', 'VariableWeights', 'variance');
 
  % Plot PCA Analysis
-    plot_PCA = figure(Name="PCA Components");
-    plot_PCA = plot3(score(:, 1), score(:, 2), score(:, 3), 'o','MarkerEdgeColor','b','MarkerFaceColor','b','MarkerSize',4);
+    figure(Name="PCA Components");
+    hold on;
+    color = ['b', 'r', 'g', 'c', 'm', 'y', 'k'];
+        
+    for i = 1 : NUM_CLASSES
+       sub_matrix = score(labels == i, 1:3);
+       plot3(sub_matrix(:, 1), sub_matrix(:, 2), sub_matrix(:, 3), 'o','MarkerEdgeColor',color(i),'MarkerFaceColor',color(i),'MarkerSize',4);
+    end
+    legend('PETE', 'HDPE', 'PVC', 'LDPE', 'PP', 'PS', 'BACKGROUND');
+    hold off;
+    clear sub_matrix;
+
+    %Plot pca coefficients
     figure(1);
-    hold;
+    hold on;
     plot(scale, coeff(1:4, :));
     legend('PETE', 'HDPE', 'PVC', 'LDPE', 'PP', 'PS', 'BACKGROUND', 'PCA COMPONENT 1', 'PCA COMPONENT 2', 'PCA COMPONENT 3', 'PCA COMPONENT 4');
 
